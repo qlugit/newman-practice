@@ -1,4 +1,7 @@
 # newman-practice
 My first LB repo on GitHub
-run as:
-runNewmanCMD.cmd
+
+install Node.js
+install Newman: npm install -g newman
+
+run as: runNewmanCMD.cmd
