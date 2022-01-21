@@ -7,100 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Get User",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Status code name is 'OK'\", function () {\r",
-							"    pm.response.to.have.status(\"OK\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"'Content-Type' header is included\", function () {\r",
-							"    pm.response.to.have.header(\"Content-Type\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"No errors in response\", function () {\r",
-							"    pm.response.to.not.be.error;\r",
-							"    pm.response.to.not.have.jsonBody(\"error\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response must be a valid json body\", function () {\r",
-							"     pm.response.to.be.ok;\r",
-							"     pm.response.to.be.withBody;\r",
-							"     pm.response.to.be.json;\r",
-							"});\r",
-							"\r",
-							"// pm.test(\"Check if user id is correct\", function () {\r",
-							"//     var jsonData = pm.response.json();\r",
-							"//     pm.expect(jsonData[0].id).to.eql(\"00u150pmzyKL8StsM1d7\");\r",
-							"// });\r",
-							"\r",
-							"// pm.test(\"Check if status is correct\", function () {\r",
-							"//     var jsonData = pm.response.json();\r",
-							"//     pm.expect(jsonData[1].status).to.eql(\"ACTIVE\");\r",
-							"// });\r",
-							"\r",
-							"pm.test(\"Body contains strings\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"qlurcm1com\");\r",
-							"    pm.expect(pm.response.text()).to.include(\"ACTIVE\");\r",
-							"     pm.expect(pm.response.text()).to.include(\"BrokerDealCenterQA\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response time is less than 1000ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"postman.setEnvironmentVariable(\"userId\", \"00u150pmzyKL8StsM1d7\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Authorization",
-						"value": "SSWS {{apikey}}"
-					}
-				],
-				"url": {
-					"raw": "{{url}}/api/v1/users/{{userId}}",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"users",
-						"{{userId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Find User",
 			"event": [
 				{
@@ -116,6 +22,11 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"pm.test(\"Environment variable username is correct\", function () {\r",
+							"    console.log(pm.environment.get(\"username\"));\r",
+							"    pm.expect(pm.environment.get(\"username\")).to.eql('qlu@rcm1.com')\r",
+							"});\r",
+							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
@@ -142,7 +53,6 @@
 							"pm.test(\"User ID is correct\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData[0].id).to.eql(\"00u150pmzyKL8StsM1d7\");\r",
-							"    //pm.expect(jsonData[1].status).to.eql(\"ACTIVE\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Body contains strings\", function () {\r",
@@ -194,6 +104,150 @@
 							"key": "limit",
 							"value": "1"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Environment variable username is correct\", function () {\r",
+							"    console.log(postman.getEnvironmentVariable(\"userId\"));\r",
+							"     pm.expect(postman.getEnvironmentVariable(\"userId\")).to.eql(\"00u150pmzyKL8StsM1d7\");\r",
+							"\r",
+							"    console.log(pm.response.json().status);\r",
+							"    console.log(typeof pm.response.json().created);\r",
+							"    console.log(typeof pm.response.json()._links);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check the active environment\", () => {\r",
+							"  pm.expect(pm.environment.name).to.eql(\"Okta Test\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response property matches environment variable\", function () {\r",
+							"  pm.expect(pm.response.json().suerId).to.eql(pm.environment.get(\"00u150pmzyKL8StsM1d7\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is correct\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", () => {\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"No errors in response\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response must be a valid json body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body contains strings\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"qlurcm1com\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"ACTIVE\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"BrokerDealCenterQA\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"    pm.expect(jsonData.created).to.be.a(\"string\");\r",
+							"    //pm.expect(jsonData.age).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.profile.lightbox__spatialstream__account__valuation).to.be.an(\"array\");\r",
+							"    pm.expect(jsonData.website).to.be.undefined;\r",
+							"    pm.expect(jsonData.profile.mobilePhone).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The response has all properties\", () => {\r",
+							"    //parse the response JSON and test 8 properties\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.id).to.eql('00u150pmzyKL8StsM1d7');\r",
+							"    pm.expect(responseJson.status).to.eql('ACTIVE');\r",
+							"    pm.expect(responseJson.type.id).to.eql('otyek2zstoiChx22W1d5');\r",
+							"    pm.expect(responseJson.profile.firstName).to.eql('Qin');\r",
+							"    pm.expect(responseJson.profile.lightbox__spatialstream__account__valuation[0]).to.be.a('string');\r",
+							"    pm.expect(responseJson.profile.lightbox__spatialstream__account__valuation[0]).to.eql('BrokerDealCenterQA');\r",
+							"    pm.expect(responseJson._links.suspend.method).to.eql('POST');\r",
+							"    pm.expect(responseJson._links.suspend.method).to.have.lengthOf(4);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cookie JSESSIONID is present\", () => {\r",
+							"    pm.expect(pm.cookies.has('JSESSIONID')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Object is contained\", () => {\r",
+							"    const expectedTypeObject = {\r",
+							"        \"type\": {\r",
+							"            \"id\": \"otyek2zstoiChx22W1d5\"\r",
+							"        }\r",
+							"    };\r",
+							"    const expectedCredentialsObject = {\r",
+							"        \"credentials\": {\r",
+							"            \"password\": {},\r",
+							"            \"provider\": {\r",
+							"                \"type\": \"OKTA\",\r",
+							"                \"name\": \"OKTA\"\r",
+							"            }\r",
+							"        }\r",
+							"    };\r",
+							"    pm.expect(pm.response.json()).to.deep.include(expectedTypeObject);\r",
+							"    pm.expect(pm.response.json()).to.deep.include(expectedCredentialsObject);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"userId\", \"00u150pmzyKL8StsM1d7\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}"
 					]
 				}
 			},
