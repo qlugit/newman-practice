@@ -70,7 +70,7 @@
 							"    pm.expect(responseJson.birth_year).to.eql('19BBY');\r",
 							"    pm.expect(responseJson.gender).to.eql('male');\r",
 							"\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -120,7 +120,7 @@
 							"    pm.expect(responseJson.terrain).to.eql('jungle, rainforests');\r",
 							"    pm.expect(responseJson.surface_water).to.eql('8');\r",
 							"\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -171,7 +171,7 @@
 							"    pm.expect(responseJson.crew).to.eql('342,953');\r",
 							"    pm.expect(responseJson.passengers).to.eql('843,342');\r",
 							"\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
 							"});"
 						],
 						"type": "text/javascript"
