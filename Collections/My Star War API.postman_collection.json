@@ -18,7 +18,7 @@
 							"    // Console log response in html\r",
 							"    const $ = cheerio.load(pm.response.text());\r",
 							"    //output the html for testing\r",
-							"    console.log($.html());\r",
+							"    //console.log($.html()); // working\r",
 							"\r",
 							"    \r",
 							"});\r",
